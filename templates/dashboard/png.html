@@ -1,0 +1,46 @@
+{% extends 'layout/dashboard.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid flex-grow-1 container-p-y">
+    <div class="layout-demo-wrapper">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <h2 class="mb-3">🛹 Create product names from example words. 🛹</h2>
+                <form class="" action="#" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="selected_keyword">Select a keyword:</label>
+                        <select id="selected_keyword" name="selected_keyword" class="form-control">
+                            <option value="">-- Select a keyword --</option>
+                            <option value="fcommerce">F-Commerce</option>
+                            <option value="ecommerce"> E-Commerce</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="custom_keyword">Or enter a custom keyword:</label>
+                        <input type="text" id="custom_keyword" name="custom_keyword" class="form-control" placeholder="Enter custom keyword">
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-success fw-bold" type="submit">🙂 Generate Names</button>
+                    </div>
+                </form>
+                {% if generated_name %}
+                <h2>Generated Product Name:</h2>
+                <p>{{ generated_name }}</p>
+                {% endif %}
+                <h2>Previously Generated Product Names:</h2>
+                <ul>
+                    {% for product_name in product_names %}
+                        {% if product_name.user == request.user %}
+                            <li>{{ product_name.generated_name }} (Example words: {{ product_name.example_words }})</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

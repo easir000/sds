@@ -1,0 +1,208 @@
+
+{% extends 'layout/dashboard.html' %}
+
+{%  load static %}
+
+{% block body %}
+
+
+
+
+   <!-- Content -->
+
+   <div class="container-fluid flex-grow-1 container-p-y">
+    <!-- Layout Demo -->
+      <div class="layout-demo-wrapper">
+
+        <div class="row">
+          <div class = "col-lg-1"> </div>
+          <div class = "col-lg-10"> </div>
+          <div class= "row">
+            {% comment %} <div class = "col-lg-6"> </div>
+            <img class="rounded" src="{%static 'landing/img/person/person_4.jpg' %}" alt="Create Blog">
+          
+        </div> {% endcomment %}
+      <div class = "col-lg-6"> </div>
+     
+     <!-- <h2 class = "mb-3"> 🛹Enter your Content Idea below to generate blog topic suggestions🛹 </h2> -->
+
+     <h1 class="card-header text-center">Chalkr AI WEB assistant</h1>
+     
+     <div class="card-body">
+      
+       <!-- <div class="d-flex justify-content-end"> -->
+         <!-- <button type="button" class="btn btn-primary mb-3" onclick="location.href='#'">New Chat +</button> -->
+         <!-- <button type="button" class="btn btn-primary mb-3" onclick="location.href='{% url 'new_chat' %}'">New Chat +</button> -->
+       <!-- </div> -->
+
+       
+       <div class="chat-history mb-3">
+        {% for message in messages %}
+        {% if message.user == request.user %}
+        <div class="card mb-2 {% if message.role == 'assistant' %}bg-primary text-white{% endif %}">
+          <div class="card-body p-2">
+            <strong>{{ message.role|title }}:</strong> {{ message.content|linebreaksbr }}
+            <a href="{% url 'edit_message' message.id %}" class="btn btn-warning btn-sm float-end">Edit</a>
+          <a href="{% url 'delete_message' message.id %}" class="btn btn-danger btn-sm float-end">Delete</a>
+          <!-- <button type="button" class="btn btn-primary btn-color btn-bg-color btn-sm col-xs-2 btn-primary-spacing">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ADD PACKET
+          </button> -->
+        </div>
+        </div>
+        {% endif %}
+         {% endfor %}
+      </div>
+      <form class="" action="#" method="post">
+        {% csrf_token %}
+        
+        <button type="button" class="btn btn-primary mb-3" id="startRecording">Start Recording</button>
+        <button type="button" class="btn btn-primary mb-3" id="stopRecording" disabled>Stop Recording</button>
+        <button type="button" class="btn btn-primary mb-3" id="clearText">Clear Text</button>
+        
+        <textarea
+            required
+            autofocus="autofocus"
+            id="voiceText"
+            name="voiceText"
+            value="{{ prompt }}"
+            class="form-control mb-2"
+            placeholder="Speak your message... or ask anything, ChalkrAI will try its best."
+            maxlength="300" 
+            required
+           
+        >
+        
+      </textarea>
+        <span id="charCount" class="text-muted">0/300 characters</span> <!-- Display character count -->
+        
+        <div>
+            <label for="temperature" class="form-label">Temperature:</label>
+            <input
+                class="form-control mb-2"
+                type="number"
+                step="0.01"
+                min="0"
+                max="2"
+                name="temperature"
+                value="{{ temperature }}"
+                id="temperature"
+            >
+        </div>
+        
+        <!-- Hidden input field to store the audio blob -->
+        <input type="hidden" id="audioBlob" name="audioBlob" value="">
+        
+        <button class="btn btn-success fw-bold" type="submit">GENERATE</button>
+        
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary mb-3" onclick="location.href='{% url 'new_chat' %}'">New Chat +</button>
+            <button type="button" class="btn btn-danger mb-3 mx-2" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Delete History</button>
+        </div>
+        
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Delete Chat History</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete the entire chat history? This action cannot be undone.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="{% url 'delete_full_history' %}" class="btn btn-danger">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        </div>
+          
+       </form>
+     
+    <!-- Display recorded audio -->
+    <audio id="recordedAudio" controls></audio>
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startButton = document.getElementById('startRecording');
+            const stopButton = document.getElementById('stopRecording');
+            const clearButton = document.getElementById('clearText');
+            const voiceText = document.getElementById('voiceText');
+            const recordedAudio = document.getElementById('recordedAudio');
+            const audioBlobInput = document.getElementById('audioBlob');
+            const charCount = document.getElementById('charCount');
+            let recognition;
+            let mediaRecorder;
+            let audioChunks = [];
+    
+            startButton.addEventListener('click', () => {
+                recognition = new webkitSpeechRecognition();
+                recognition.lang = 'en-US';
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    voiceText.value += transcript;
+                };
+            
+                recognition.start();
+                startButton.disabled = true;
+                stopButton.disabled = false;
+            });
+    
+            stopButton.addEventListener('click', () => {
+              mediaRecorder.stop();
+              startButton.disabled = false;
+              stopButton.disabled = true;
+          });
+    
+            clearButton.addEventListener('click', () => {
+                voiceText.value = '';
+            });
+    
+            startButton.addEventListener('click', async () => {
+                audioChunks = [];
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+    
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+    
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    recordedAudio.src = audioUrl;
+                    audioBlobInput.value = audioBlob;
+                };
+    
+                mediaRecorder.start();
+                startButton.disabled = true;
+                stopButton.disabled = false;
+            });
+    
+            stopButton.addEventListener('click', () => {
+                mediaRecorder.stop();
+                startButton.disabled = false;
+                stopButton.disabled = true;
+            });
+            voiceText.addEventListener('input', () => {
+              const currentCount = voiceText.value.length;
+              charCount.textContent = `${currentCount}/300 characters`;
+          });
+        });
+    </script>
+
+ 
+    
+     </div>
+     </div>
+     </div>
+     </div>
+     {% endblock %}
+     
+ 

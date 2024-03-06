@@ -1,0 +1,45 @@
+
+{% extends 'layout/dashboard.html' %}
+
+{%  load static %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% crispy ProfileForm ProfileForm.helper %}
+
+
+
+{% block body%}
+
+
+
+   <!-- Content -->
+
+   <div class="container-fluid flex-grow-1 container-p-y">
+    <!-- Layout Demo -->
+      <div class="layout-demo-wrapper">
+
+        <div class="row">
+          <div class = "col-lg-1"> </div>
+          <div class = "col-lg-10"> </div>
+          <div class= "row">
+            
+      <div class = "col-lg-6"> </div>
+     
+      <h2>Create a Recipe</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="mb-3">
+      <button class="btn btn-success fw-bold" type="submit">Generate Recipe :</button>
+    </div>
+  </form>
+{% endblock %}
+
+
+
+
+
+
+
+{{ form|crispy }}

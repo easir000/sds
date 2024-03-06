@@ -1,0 +1,30 @@
+{% extends 'layout/dashboard.html' %}
+
+{%  load static %}
+
+{% block body %}
+
+<div class="container-fluid flex-grow-1 container-p-y">
+    <!-- Layout Demo -->
+    <div class="layout-demo-wrapper">
+
+    <div class="row">
+        <div class = "col-lg-1"> </div>
+        <div class = "col-lg-10"> </div>
+        <h1>Contact Information Extraction Results</h1>
+    <p>Input Text: {{ input_text }}</p>
+    <ul>
+        {% for contact_info in extracted_contacts %}
+            <li>{{ contact_info }}</li>
+        {% endfor %}
+    </ul>
+    </div>
+</div>
+
+</div>
+    
+{% endblock %}
+
+
+
+

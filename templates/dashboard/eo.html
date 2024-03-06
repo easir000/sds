@@ -1,0 +1,57 @@
+
+
+{% extends 'layout/dashboard.html' %}
+
+{%  load static %}
+
+{% block body %}
+
+
+
+
+   <!-- Content -->
+
+   <div class="container-fluid flex-grow-1 container-p-y">
+    <!-- Layout Demo -->
+      <div class="layout-demo-wrapper">
+
+        <div class="row">
+          <div class = "col-lg-1"> </div>
+          <div class = "col-lg-10"> </div>
+          <div class= "row">
+            {% comment %} <div class = "col-lg-6"> </div>
+            <img class="rounded" src="{%static 'landing/img/person/person_4.jpg' %}" alt="Create web">
+          
+        </div> {% endcomment %}
+      <div class = "col-lg-6"> </div>
+     
+     <h2 class = "mb-3"> 🛹Essay Outline Generator 🛹 </h2>
+
+
+  <form class = "" action="#" method = "post">
+    
+{% csrf_token %}
+        
+        
+<div class="mb-3">
+  <label for="essay_topic">Essay Topic:</label><br>
+  <textarea maxlength="60" type="text" name="essay_topic" class="form-control" placeholder="content generator from oroginal Article  into Revised Content via example." required></textarea>
+  <label for="essay_type">Essay Type:</label><br>
+  <textarea maxlength="60" type="text" name="essay_type" class="form-control" placeholder="content generator from oroginal Article  into Revised Content via example." required></textarea>
+  <label for="essay_purpose">Essay Purpose:</label><br>
+  <textarea maxlength="60" type="text" name="essay_purpose" class="form-control" placeholder="content generator from oroginal Article  into Revised Content via example." required></textarea>
+  <label for="desired_essay_length">Desired Essay Length:</label><br>
+  <textarea maxlength="160" type="text" name="desired_essay_length" class="form-control" placeholder="content generator from oroginal Article  into Revised Content via example." required></textarea>
+  <label for="academic_level">Academic Level:</label><br>
+  <textarea maxlength="60" type="text" name="academic_level" class="form-control" placeholder="content generator from oroginal Article  into Revised Content via example." required></textarea>
+  <label for="specific_instructions">Specific Instructions:</label><br>
+  <textarea maxlength="60" type="text" name="specific_instructions" class="form-control" placeholder="content generator from oroginal Article  into Revised Content via example." required></textarea>
+
+</div>
+
+  <div class="mb-3">
+    <button class="btn btn-success fw-bold" type="submit">🙂Generate:</button>
+  </div>
+  
+
+  {% endblock  %}

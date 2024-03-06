@@ -1,0 +1,85 @@
+{% extends 'layout/dashboard.html' %}
+{% load static %}
+
+{% block body %}
+<style>
+    /* Add custom CSS styles here */
+    .recipe-details {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    .recipe-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .recipe-section {
+        margin-top: 20px;
+    }
+
+    .recipe-section h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .recipe-text {
+        white-space: pre-line; /* Preserve line breaks in the text */
+        font-size: 16px;
+    }
+
+    .disclaimer {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #999;
+    }
+</style>
+
+<div class="container-fluid flex-grow-1 container-p-y">
+    <!-- Layout Demo -->
+    <div class="layout-demo-wrapper">
+
+        <div class="row">
+            <div class="col-lg-10">
+
+                <div class="container my-6">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <h2 class="recipe-title">{{ generated_recipe.title }}</h2>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Section</th>
+                                        <th scope="col">Text</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Original Recipe</td>
+                                        <td>{{ generated_recipe.text | linebreaks }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Generated Recipe</td>
+                                        <td>{{ generated_recipe.generated_text | linebreaks }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="disclaimer" style="background-color: #ffcccc; padding: 10px; border-radius: 5px;">
+                                <p style="color: #ff0000;">This recipe is provided for informational purposes only. Any claim or representation of this recipe as original or exclusive is not intended. The recipe may have been generated using automated tools and should be used responsibly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <!-- Rest of your HTML content for the employee management table and modals -->
+</div>
+{% endblock %}
