@@ -11,7 +11,7 @@
 
   
      <link rel="icon" type="image/x-icon" href="{% static 'landing/img/chalkr.ai-2.jpg' %}" alt="Bootstrap" width="50" height="50"/> 
-     <title> Chalkr AI</title>
+     <title> </title>
 
   <link rel="stylesheet" href="{% static 'landing/css/maicons.css' %}">
 
@@ -31,7 +31,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky" data-offset="500">
       <div class="container">
         <a  href = "{% url 'home' %}" class="navbar-brand" href="#">
-          <img src="{% static 'landing/img/chalkr.ai-2.jpg' %}" alt="Bootstrap" width="100" height="100">
+          
         </a>
 
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,9 +43,7 @@
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'home' %}"> Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href=" {%url 'pricing' %} ">Pricing</a>
-            </li>
+            
             
            
             {% if user.is_authenticated %}
@@ -76,7 +74,7 @@
       <div class="row mb-5">
         <div class="col-lg-3 py-3">
           <a class="navbar-brand" href="#">
-            <img src="{% static 'landing/img/chalkr.ai-2.jpg' %}" alt="Bootstrap" width="100" height="100">
+            
           </a>
           <p>We're an experienced and talented team of passionate consultants who breathe with search engine marketing.</p>
 
@@ -98,13 +96,7 @@
             <li><a href="#">Help & Support</a></li>
           </ul>
         </div>
-        <div class="col-lg-3 py-3">
-          <h5>Contact Us</h5>
-          <p>Address: Unit 9/17 Power Ave, Alexandria NSW 2015</p>
-          <a href="#" class="footer-link">(02) 8958 6754</a>
-       
-          <a href="#" class="footer-link">info@hexflow.com.au</a>
-        </div>
+        
         <div class="col-lg-3 py-3">
           <h5>Newsletter</h5>
           <p>Get updates, news or events on your mail.</p>
@@ -117,14 +109,12 @@
     
       <div class="text-center" id="designed-developed">
         <p>
-            Designed & Developed By 
-            <a href="https://www.hexflow.com.au/" target="_blank" class="footer-link fw-bolder">Hex Flow</a>
-        </p>
+            </p>
     </div>
     <div class="text-left" id="copyright">
         <p>
-            Copyright &copy; 2023.
-            <a href="https://chalkr.hexflow.au/" target="_blank" class="footer-link fw-bolder">Chalkr AI</a>
+            
+            
         </p>
     </div>
 </footer>

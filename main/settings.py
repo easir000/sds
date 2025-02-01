@@ -41,10 +41,10 @@ DEBUG = True
 # ALLOWED_HOSTS = ['172.16.33.98','rapidsrv.duckdns.org']
 
 ALLOWED_HOSTS = ['172.16.33.98','127.0.0.1','localhost']  # <-- Updated!
-# ALLOWED_HOSTS = ['172.16.33.97','chalkr.hexflow.au','localhost']  # <-- Updated!
+# ALLOWED_HOSTS = ['172.16.33.97','esd.hexflow.au','localhost']  # <-- Updated!
 
 
-CSRF_TRUSTED_ORIGINS = ['https://chalkr.hexflow.au']  # <-- Updated!
+CSRF_TRUSTED_ORIGINS = ['https://esd.hexflow.au']  # <-- Updated!
 
 PAYPAL_SECRET='EMnAWe06ioGtouJs7gLYT9chK9-2jJ--7MKRXpI8FesmY_2Kp-d_7aCqff7M9moEJBvuXoBO4clKtY0v'
 # Application definition
@@ -111,25 +111,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'main.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'vultr',
-#         'USER': 'vultruser',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
 
 
 DATABASES = {
 'default': {
 'ENGINE': 'django.db.backends.mysql',
-'NAME': 'hexflow',
+'NAME': 'hexflows',
 'USER': 'root',
 'PASSWORD': '',
 'HOST': '',
@@ -175,7 +162,7 @@ USE_TZ = True
 # LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
 
-OPENAI_API_KEYS = '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'
+OPENAI_API_KEYS = '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'
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 
@@ -209,26 +196,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap', 'uni_form', 'bootstrap3','bootstra
 CRISPY_TEMPLATE_PACK = 'uni_form'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'email.host'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'hi@email.com'
-# EMAIL_HOST_PASSWORD = 'password'
-# DEFAULT_FROM_EMAIL = 'hi@email.com'
-
-
-# Emailing settings
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_HOST = 'mail.hexflow.com.au'
-# EMAIL_FROM = 'chalkrai@hexflow.com.au'
-# EMAIL_HOST_USER = 'chalkrai@hexflow.com.au'
-
-# EMAIL_HOST_PASSWORD = str(os.getenv('LgYZ?xU396U['))
-# EMAIL_PORT = 465
-# EMAIL_USE_TLS = True
-
-# PASSWORD_RESET_TIMEOUT = 14400
+# EMAIL_BACK
 
 
 EMAIL_HOST = 'mail.hexflow.com.au'
@@ -243,15 +211,15 @@ JAZZMIN_SETTINGS = {
 
     
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "ChalkrAI",
+    "site_title": "AI",
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "ChalkrAI",
-     "site_brand": "ChalkrAI",
+    "site_header": "AI",
+     "site_brand": "AI",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "landing/img/chalkr.ai-2.jpg",
-     "login_logo": "admin/img/chalkr.ai-2.jpg",
+    "site_logo": "landing/img/esd.ai-2.jpg",
+     "login_logo": "admin/img/esd.ai-2.jpg",
 
     # Logo to use for login form in dark themes (defaults to login_logo)
     "login_logo_dark": True,
@@ -266,10 +234,10 @@ JAZZMIN_SETTINGS = {
     
     
       # Welcome text on the login screen
-    "welcome_sign": "Welcome to the ChalkrAI",
+    "welcome_sign": "Welcome to the esdAI",
        # Copyright on the footer
-    "copyright": "CHALkr AI",
-    "version": "CHALkr AI",
+    "copyright": "esd AI",
+    "version": "esd AI",
 
     "topmenu_links": [
 
