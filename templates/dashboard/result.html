@@ -1,0 +1,36 @@
+{% extends 'layout/dashboard.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1>Hotel Search Results</h1>
+
+<p>City Name: {{ form.city_name.value }}</p>
+<p>Min Price: {{ form.min_price.value }}</p>
+<p>Max Price: {{ form.max_price.value }}</p>
+<p>Star Rating: {{ form.star_rating.value }}</p>
+
+{% if message %}
+    <p>{{ message }}</p>
+{% else %}
+    <div class="hotel-list">
+        {% for hotel in hotels %}
+            <div class="hotel">
+                <img src="{{ hotel.image_url }}" alt="{{ hotel.name }}" />
+                <h3>{{ hotel.name }}</h3>
+                <p>Star Rating: {{ hotel.star_rating }}</p>
+                <p>Price from Booking.com: {{ hotel.price_booking }}</p>
+                <p>Price from Agoda: {{ hotel.price_agoda }}</p>
+                <p>Best Price: {{ hotel.best_price }}</p>
+                <a href="{{ hotel.booking_url }}" target="_blank">Direct Booking</a>
+                <br>
+                <a href="{% url 'bookmark_hotel' hotel.id %}" class="btn btn-primary">Bookmark</a>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endif %}
+
+    </div>
+</div>
+{% endblock %}
