@@ -15,13 +15,30 @@ from crispy_forms.layout import Layout, Div, Field, Submit
 
 from django import forms
 
-class SearchForm(forms.Form):
-    city_name = forms.CharField(label="City", max_length=100)
-    min_price = forms.IntegerField(label="Min Price", required=False)
-    max_price = forms.IntegerField(label="Max Price", required=False)
-    star_rating = forms.ChoiceField(choices=[(i, f"{i} Stars") for i in range(1, 6)], required=False)
+class HotelSearchForm(forms.Form):
+    city_name = forms.CharField(
+        label="City Name",
+        max_length=100,
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter city name'}),
+    )
+    min_price = forms.IntegerField(
+        label="Min Price",
+        required=False,
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Min Price'}),
+    )
+    max_price = forms.IntegerField(
+        label="Max Price",
+        required=False,
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Max Price'}),
+    )
+    star_rating = forms.ChoiceField(
+        label="Star Rating",
+        choices=[('', 'Any')] + [(str(i), f"{i} Star") for i in range(1, 6)],
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
 
-    
 class ProfileForm(forms.ModelForm):
     
         first_name = forms.CharField(
