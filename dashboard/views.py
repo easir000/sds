@@ -21,7 +21,7 @@ from datetime import datetime as dt
 import requests
 import json
 
-from PIL import Image
+
 
 from .forms import *
 from .models import *
@@ -49,42 +49,74 @@ import os
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
-from moviepy.editor import *
-from moviepy.video.tools.segmenting import findObjects
 import numpy as np
 from django.shortcuts import render
 from .models import Hotel
-from .forms import SearchForm
+
 from .scrapy.agoda_scraper import save_agoda_hotels
 from .scrapy.booking_scraper import save_booking_hotels
 
 
 
+from .models import Hotel
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Hotel
+
+from django.shortcuts import render
+from .models import Hotel
+
+from .forms import HotelSearchForm
+from django.shortcuts import render
+from .models import Hotel
+from .scrapy import  agoda_scraper
+
+def results(request):
+    city_name = request.GET.get('city_name', '')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    star_rating = request.GET.get('star_rating')
+
+    if not city_name:  # Prevent scraping with an empty city
+        return render(request, 'dashboard/results.html', {'hotels': []})
+
+    # Debugging Logs
+    print(f"Scraping for: City={city_name}, Min={min_price}, Max={max_price}, Stars={star_rating}")
+
+    # Call the Scrapy function to scrape data from Booking.com and Agoda
+    hotels = agoda_scraper (city_name, min_price, max_price, star_rating)
+
+    if not hotels:
+        print("No hotels found during scraping.")
+
+    return render(request, 'dashboard/results.html', {'hotels': hotels})
+
+
+def bookmark_hotel(request, hotel_id):
+    """Adds a hotel to the user's session-based bookmarks."""
+    hotel = get_object_or_404(Hotel, id=hotel_id)
+    bookmarks = request.session.get('bookmarks', [])
+
+    if hotel.id not in bookmarks:
+        bookmarks.append(hotel.id)
+
+    request.session['bookmarks'] = bookmarks
+    request.session.modified = True  # Ensure session is updated
+    return redirect('dashboard')  # Redirect to the dashboard or search results page
+def bookmarked_hotels(request):
+    """Displays hotels bookmarked by the user."""
+    bookmarks = request.session.get('bookmarks', [])
+    hotels = Hotel.objects.filter(id__in=bookmarks)
+    return render(request, 'dashboard/bookmarks.html', {'hotels': hotels})
+
+
+
+
 def home(request):
-    form = SearchForm(request.GET)
-    hotels = Hotel.objects.all()
+    form = HotelSearchForm()
+    return render(request, 'dashboard/home.html', {'form': form})
 
-    if form.is_valid():
-        city = form.cleaned_data.get("city_name")
-        min_price = form.cleaned_data.get("min_price")
-        max_price = form.cleaned_data.get("max_price")
-        star_rating = form.cleaned_data.get("star_rating")
 
-        # Trigger scraping
-        agoda_url = f"https://www.agoda.com/city/{city.replace(' ', '-')}-my.html"
-        booking_url = f"https://www.booking.com/searchresults.html?ss={city}"
-        save_agoda_hotels(agoda_url)
-        save_booking_hotels(booking_url)
-
-        # Filter results
-        if min_price:
-            hotels = hotels.filter(price_agoda__gte=min_price) | hotels.filter(price_booking__gte=min_price)
-        if max_price:
-            hotels = hotels.filter(price_agoda__lte=max_price) | hotels.filter(price_booking__lte=max_price)
-        if star_rating:
-            hotels = hotels.filter(star_rating=star_rating)
-
-    return render(request, "dashboard/home.html", {"form": form, "hotels": hotels})
 @login_required
 def profile(request,*args, **kwargs):
     context = {}                      
