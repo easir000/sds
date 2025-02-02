@@ -1,23 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
-from dashboard.models import Hotel  # Import the Hotel model
+from dashboard.models import Hotel
 
 def fetch_booking_data(url):
-    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5042.108 Safari/537.36"}
+    headers = {"User-Agent": "Mozilla/5.0"}
     response = requests.get(url, headers=headers)
     print(f"Booking Response Status: {response.status_code}")  # Debug
-    
-    if response.status_code == 200:
-        # Debug: Save HTML content to a file
-        with open('booking_page.html', 'w', encoding='utf-8') as f:
-            f.write(response.text)
-    
     return response.content if response.status_code == 200 else None
 
 def extract_booking_hotels(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
     hotels = []
 
+    # Example selector for Booking.com hotel cards
     for el in soup.find_all("div", {"data-testid": "property-card"}):
         name = el.find("div", {"data-testid": "title"}).text.strip()
         link = el.find("a", {"data-testid": "title-link"})["href"]

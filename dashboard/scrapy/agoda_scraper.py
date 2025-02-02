@@ -7,31 +7,29 @@ from dashboard.models import Hotel
 import time
 
 def fetch_agoda_data(url):
+    # Set up Selenium WebDriver
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
+    options.add_argument('--headless')  # Run in background
+    options.add_argument('--disable-gpu')  # Disable GPU for headless mode
+    options.add_argument('--no-sandbox')  # Bypass OS security model
     options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
     
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     driver.get(url)
     
     # Wait for the page to load completely
-    time.sleep(10)
+    time.sleep(10)  # Increase the sleep time if necessary
     
     # Extract the page source
     html_content = driver.page_source
     driver.quit()
-
-    # Debug: Save HTML content to a file
-    with open('agoda_page.html', 'w', encoding='utf-8') as f:
-        f.write(html_content)
-    
     return html_content
+
 def extract_agoda_hotels(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
     hotels = []
 
+    # Example selector for Agoda hotel cards
     for hotel in soup.select('div.PropertyCardItem'):
         name = hotel.select_one('h3.PropertyCard__HotelName').text.strip() if hotel.select_one('h3.PropertyCard__HotelName') else ''
         price = hotel.select_one('span.Price__Value').text.strip().replace('$', '') if hotel.select_one('span.Price__Value') else None
@@ -43,6 +41,7 @@ def extract_agoda_hotels(html_content):
     
     print(f"Extracted {len(hotels)} hotels from Agoda")  # Debug
     return hotels
+
 def save_agoda_hotels(url):
     html_content = fetch_agoda_data(url)
     if html_content:

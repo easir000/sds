@@ -59,6 +59,8 @@ from .forms import SearchForm
 from .scrapy.agoda_scraper import save_agoda_hotels
 from .scrapy.booking_scraper import save_booking_hotels
 
+
+
 def home(request):
     form = SearchForm(request.GET)
     hotels = Hotel.objects.all()
@@ -70,7 +72,7 @@ def home(request):
         star_rating = form.cleaned_data.get("star_rating")
 
         # Trigger scraping
-        agoda_url = f"https://www.agoda.com/search?city={city}"
+        agoda_url = f"https://www.agoda.com/city/{city.replace(' ', '-')}-my.html"
         booking_url = f"https://www.booking.com/searchresults.html?ss={city}"
         save_agoda_hotels(agoda_url)
         save_booking_hotels(booking_url)
@@ -84,8 +86,6 @@ def home(request):
             hotels = hotels.filter(star_rating=star_rating)
 
     return render(request, "dashboard/home.html", {"form": form, "hotels": hotels})
-######################################################### Profile
-
 @login_required
 def profile(request,*args, **kwargs):
     context = {}                      
