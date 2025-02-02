@@ -30,8 +30,7 @@ import time
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-# importing the openai API
-import openai
+
 import re
 
 
@@ -114,33 +113,4 @@ def profile(request,*args, **kwargs):
    
     return render(request, 'dashboard/profile.html', context)
 
-######################################################### txt to image
-
-
-
-######################################################### txt to image
-@login_required
-def generate_image_from_text(request):
-    pass
-    text_input = request.GET.get('text_input')
-    image_url = None
-    if text_input is not None:
-        if '\n' in text_input:
-            prompt = text_input
-        else:
-            features_input = request.GET.get('features_input')
-            if features_input is not None:
-                prompt = f"{text_input}\n{features_input}"
-            else:
-                prompt = text_input
-        response = openai.Image.create(
-            prompt=prompt,
-            n=1,
-            size='1024x1024',
-        )
-        image_url = response['data'][0]['url']
-    context = {'image_url': image_url}
-    return render(request, 'dashboard/images.html', context) 
-
-######################################################### Human Like Content
 

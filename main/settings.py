@@ -28,11 +28,6 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%rlj+=^p&p+w62&*mr)3@=!w%3g-6pxyt7oz!=zs37mr3v^&qp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -162,12 +157,9 @@ USE_TZ = True
 # LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
 
-OPENAI_API_KEYS = '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'
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 
-# CONTENT_API_KEYS = 'beed94d14e0e32676281afe883'
-# BLOG_URL = 'https://test.hexflow.au/ghost/'
 
 DJANGORESIZED_DEFAULT_SIZE = [500, 500]
 DJANGORESIZED_DEFAULT_QUALITY = 75
@@ -185,8 +177,6 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = '/uploads/'
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
