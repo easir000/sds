@@ -7,6 +7,7 @@ from .utils import generate_ref_code
 from django.urls import reverse
 from uuid import uuid4
 from django_resized import ResizedImageField
+
 from django.utils.translation import gettext as _
 import os 
 from django.db.models.signals import post_save, pre_save
@@ -26,26 +27,20 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 
 from django import forms
-
 from django.db import models
 
 class Hotel(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=100)
     image_url = models.URLField()
-    price_agoda = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    price_booking = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    star_rating = models.FloatField()
-    agoda_url = models.URLField(null=True, blank=True)
-    booking_url = models.URLField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    price_booking = models.DecimalField(max_digits=10, decimal_places=2)
+    price_agoda = models.DecimalField(max_digits=10, decimal_places=2)
+    star_rating = models.IntegerField()
+    booking_url = models.URLField()
 
+    @property
     def best_price(self):
-        """Returns the best price available"""
-        prices = [p for p in [self.price_agoda, self.price_booking] if p is not None]
-        return min(prices) if prices else None
+        return min(self.price_booking, self.price_agoda)
 
-    def __str__(self):
-        return self.name
 
 # Create your models here.
 class Profile(models.Model):
