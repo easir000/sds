@@ -41,17 +41,33 @@ ALLOWED_HOSTS = ['172.16.33.98','127.0.0.1','localhost']  # <-- Updated!
 
 CSRF_TRUSTED_ORIGINS = ['https://esd.hexflow.au']  # <-- Updated!
 
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-%rlj+=^p&p+w62&*mr)3@=!w%3g-6pxyt7oz!=zs37mr3v^&qp'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+# DEBUG = False
+
+# ALLOWED_HOSTS = ['172.16.33.98','rapidsrv.duckdns.org']
+
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '172.16.33.98']  # <-- Updated!
+
+# CSRF_TRUSTED_ORIGINS = ['https://*.fly.dev']  # <-- Updated!
+
 PAYPAL_SECRET='EMnAWe06ioGtouJs7gLYT9chK9-2jJ--7MKRXpI8FesmY_2Kp-d_7aCqff7M9moEJBvuXoBO4clKtY0v'
 # Application definition
  
-   
+
 # Application definition 
 
 INSTALLED_APPS = [
-   'jazzmin',
+    'django_ckeditor_5',
     'clearcache',
-    
-    
+    'django_resized',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -197,69 +213,3 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'TestSite Team <noreply@example.com>'
 
 
-JAZZMIN_SETTINGS = {
-
-    
-    # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "AI",
-
-    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "AI",
-     "site_brand": "AI",
-
-    # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "landing/img/esd.ai-2.jpg",
-     "login_logo": "admin/img/esd.ai-2.jpg",
-
-    # Logo to use for login form in dark themes (defaults to login_logo)
-    "login_logo_dark": True,
-
-    # CSS classes that are applied to the logo above
-    "site_logo_classes": "img-circle",
-    
-     # List of model admins to search from the search bar, search bar omitted if excluded
-    # If you want to use a single search field you dont need to use a list, you can use a simple string 
-    "search_model": ["auth.User", "auth.Group","dashboard.profile"],
-
-    
-    
-      # Welcome text on the login screen
-    "welcome_sign": "Welcome to the esdAI",
-       # Copyright on the footer
-    "copyright": "esd AI",
-    "version": "esd AI",
-
-    "topmenu_links": [
-
-        # Url that gets reversed (Permissions can be added)
-        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
-
-        # external url that opens in a new window (Permissions can be added)
-        # {"name": "Pricing ", "url": "http://127.0.0.1:8000/about", "new_window": True},
-
-        # model admin to link to (Permissions checked against model)
-        {"model": "auth.User"},
-
-        
-    ],
-    
- "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
-        "dashboard.Blogsection": "	fas fa-light fa-list",
-        "dashboard.Blog": "fas fa-pen-nib",
-        "dashboard.Membership": "fas fa-light-fa-gear",
-        "dashboard.profile": "	fas fa-user-tie",
-
-
-        
-    },   
-     
-}
-
-JAZZMIN_UI_TWEAKS = {
-   
-    "theme": "flatly",
-    
-}
